@@ -186,6 +186,10 @@ export default class AppIntro extends Component {
   }
 
   renderPagination = (index, total, context) => {
+    if(this.props.showRenderPaginationNum){
+      total = this.props.showRenderPaginationNum;
+    }
+
     let isDoneBtnShow;
     let isSkipBtnShow;
     if (index === total - 1) {
@@ -335,6 +339,7 @@ export default class AppIntro extends Component {
 }
 
 AppIntro.propTypes = {
+  showRenderPaginationNum: PropTypes.number,//强制设置下标点数量  例：强制下标点数量=页面数-1  可用于最后页作滑动定义事件：左滑进入app等
   dotColor: PropTypes.string,
   activeDotColor: PropTypes.string,
   rightTextColor: PropTypes.string,
