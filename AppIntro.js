@@ -206,7 +206,7 @@ export default class AppIntro extends Component {
       isSkipBtnShow = true;
     }
     return (
-      <View style={[this.styles.paginationContainer]}>
+      <View style={[this.styles.paginationContainer,this.props.paginationContainer]}>
         {this.props.showSkipButton ? <SkipButton
           {...this.props}
           {...this.state}
@@ -367,7 +367,8 @@ AppIntro.propTypes = {
   showDoneButton: PropTypes.bool,
   showDots: PropTypes.bool,
   renderDoneButton: PropTypes.element,
-  renderSkipButton: PropTypes.element
+  renderSkipButton: PropTypes.element,
+  paginationContainer: View.propTypes.style, //指示器等view的位置配置
 };
 
 AppIntro.defaultProps = {
@@ -386,5 +387,6 @@ AppIntro.defaultProps = {
   defaultIndex: 0,
   showSkipButton: true,
   showDoneButton: true,
-  showDots: true
+  showDots: true，
+  paginationContainer: {},
 };
