@@ -1,8 +1,5 @@
 import assign from 'assign-deep';
-import React, {
-  Component,
-  PropTypes
-} from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
   StyleSheet,
   Text,
@@ -127,10 +124,7 @@ export default class AppIntro extends Component {
     let x = 0;
     if (state.dir === 'x') x = diff * state.width;
     if (Platform.OS === 'ios') {
-      context.refs.scrollView.scrollTo({
-        y: 0,
-        x
-      });
+      context.refs.scrollView.scrollTo({ y: 0, x });
     } else {
       context.refs.scrollView.setPage(diff);
       context.onScrollEnd({
@@ -144,25 +138,22 @@ export default class AppIntro extends Component {
 
   setDoneBtnOpacity = (value) => {
     Animated.timing(
-      this.state.doneFadeOpacity, {
-        toValue: value
-      },
+      this.state.doneFadeOpacity,
+      { toValue: value },
     ).start();
   }
 
   setSkipBtnOpacity = (value) => {
     Animated.timing(
-      this.state.skipFadeOpacity, {
-        toValue: value
-      },
+      this.state.skipFadeOpacity,
+      { toValue: value },
     ).start();
   }
 
   setNextOpacity = (value) => {
     Animated.timing(
-      this.state.nextOpacity, {
-        toValue: value
-      },
+      this.state.nextOpacity,
+      { toValue: value },
     ).start();
   }
   getTransform = (index, offset, level) => {
@@ -174,19 +165,19 @@ export default class AppIntro extends Component {
     const leftPosition = isFirstPage ? 0 : windowsWidth / 3;
     const rightPosition = isFirstPage ? -windowsWidth / 3 : 0;
     const transform = [{
-      transform: [{
-        translateX: this.state.parallax.interpolate({
-          inputRange: [statRange, endRange],
-          outputRange: [
-            isFirstPage ? leftPosition : leftPosition - (offset * level),
-            isFirstPage ? rightPosition + (offset * level) : rightPosition,
-          ],
-        }),
-      }],
+      transform: [
+        {
+          translateX: this.state.parallax.interpolate({
+            inputRange: [statRange, endRange],
+            outputRange: [
+              isFirstPage ? leftPosition : leftPosition - (offset * level),
+              isFirstPage ? rightPosition + (offset * level) : rightPosition,
+            ],
+          }),
+        }],
     }, {
       opacity: this.state.parallax.interpolate({
-        inputRange: [statRange, endRange],
-        outputRange: [startOpacity, endOpacity],
+        inputRange: [statRange, endRange], outputRange: [startOpacity, endOpacity],
       }),
     }];
     return {
@@ -195,7 +186,7 @@ export default class AppIntro extends Component {
   }
 
   renderPagination = (index, total, context) => {
-    if (this.props.showRenderPaginationNum) {
+    if(this.props.showRenderPaginationNum){
       total = this.props.showRenderPaginationNum;
     }
 
@@ -215,7 +206,7 @@ export default class AppIntro extends Component {
       isSkipBtnShow = true;
     }
     return (
-      <View style={[this.styles.paginationContainer,this.props.paginationContainer]}>
+      <View style={[this.styles.paginationContainer]}>
         {this.props.showSkipButton ? <SkipButton
           {...this.props}
           {...this.state}
@@ -273,9 +264,7 @@ export default class AppIntro extends Component {
 
   renderChild = (children, pageIndex, index) => {
     const level = children.props.level || 0;
-    const {
-      transform
-    } = this.getTransform(pageIndex, 10, level);
+    const { transform } = this.getTransform(pageIndex, 10, level);
     const root = children.props.children;
     let nodes = children;
     if (Array.isArray(root)) {
@@ -300,9 +289,7 @@ export default class AppIntro extends Component {
 
   render() {
     const childrens = this.props.children;
-    const {
-      pageArray
-    } = this.props;
+    const { pageArray } = this.props;
     let pages = [];
     let androidPages = null;
     if (pageArray.length > 0) {
@@ -312,25 +299,20 @@ export default class AppIntro extends Component {
         pages = childrens.map((children, i) => this.renderChild(children, i, i));
       } else {
         androidPages = childrens.map((children, i) => {
-          const {
-            transform
-          } = this.getTransform(i, -windowsWidth / 3 * 2, 1);
+          const { transform } = this.getTransform(i, -windowsWidth / 3 * 2, 1);
           pages.push(<View key={i} />);
-          return ( < Animated.View key = {
-              i
-            }
-            style = {
-              [{
-                position: 'absolute',
-                height: windowsHeight,
-                width: windowsWidth,
-                top: 0,
-              }, {
-                ...transform[0],
-              }]
-            } > {
-              this.renderChild(children, i, i)
-            } < /Animated.View>
+          return (
+            <Animated.View key={i} style={[{
+              position: 'absolute',
+              height: windowsHeight,
+              width: windowsWidth,
+              top: 0,
+            }, {
+              ...transform[0],
+            }]}
+            >
+              {this.renderChild(children, i, i)}
+            </Animated.View>
           );
         });
       }
@@ -357,7 +339,7 @@ export default class AppIntro extends Component {
 }
 
 AppIntro.propTypes = {
-  showRenderPaginationNum: PropTypes.number, //强制设置下标点数量  例：强制下标点数量=页面数-1  可用于最后页作滑动定义事件：左滑进入app等
+  showRenderPaginationNum: PropTypes.number,//强制设置下标点数量  例：强制下标点数量=页面数-1  可用于最后页作滑动定义事件：左滑进入app等
   dotColor: PropTypes.string,
   activeDotColor: PropTypes.string,
   rightTextColor: PropTypes.string,
@@ -385,8 +367,7 @@ AppIntro.propTypes = {
   showDoneButton: PropTypes.bool,
   showDots: PropTypes.bool,
   renderDoneButton: PropTypes.element,
-  renderSkipButton: PropTypes.element,
-  paginationContainer: View.propTypes.style, //指示器等view的位置配置
+  renderSkipButton: PropTypes.element
 };
 
 AppIntro.defaultProps = {
@@ -405,6 +386,5 @@ AppIntro.defaultProps = {
   defaultIndex: 0,
   showSkipButton: true,
   showDoneButton: true,
-  showDots: true,
-  paginationContainer: {}
+  showDots: true
 };
